@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./dist/main.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <a-scene inspector="https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js">
+    <a-entity environment="preset: japan;"></a-entity>
+    <a-entity 
+      position="0 0 0" 
+      rotation="0 0 0"
+      animation="
+        property: rotation; 
+        to: 0 360 0; 
+        loop: true; 
+        easing: linear;
+        dur: 10000;
+        "
+      >
+      <a-entity 
+        id="avatar"
+        vrm-model="url(./assets/1903884660012638236.vrm)" 
+        vrm-mixamo-motion="url(./assets/xbot@Walking.fbx)"
+        position="0 0 -2" 
+        rotation="0 90 0">
+      </a-entity>
+    </a-entity>
+  </a-scene>
+</body>
+</html>

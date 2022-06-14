@@ -1,4 +1,4 @@
-# aframe-ar-vrm
+# aframe-vrm-demo
 
 ## 目標
 - [A-FRAME](https://aframe.io/docs/1.3.0/introduction/)開発のベストプラクティスを見つける

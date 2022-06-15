@@ -275,7 +275,6 @@ export function animationClipToTrack(clip: THREE.AnimationClip, keys: BoneKeys, 
     let ks = keys as any
     let v = ks[k] as string
     let nameTracks = findTracks(clip.tracks, v)
-    
     if (nameTracks.length > 0) {
       let key: any[] = []
 
@@ -295,12 +294,12 @@ export function animationClipToTrack(clip: THREE.AnimationClip, keys: BoneKeys, 
             }
             break
           case 'quaternion':
-            obj['rot'] = new THREE.Quaternion(
+            obj['rot'] = [
               -t.values[i * 4 + 0],
                t.values[i * 4 + 1],
               -t.values[i * 4 + 2],
                t.values[i * 4 + 3],
-            )
+            ]
             break
           }
         }
@@ -312,7 +311,6 @@ export function animationClipToTrack(clip: THREE.AnimationClip, keys: BoneKeys, 
       }
     }
   }
-  
   return outTrack
 }
 

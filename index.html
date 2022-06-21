@@ -10,7 +10,20 @@
 <body>
   <a-scene inspector>
     <a-entity environment="preset: japan;"></a-entity>
+    <a-box
+      vrm-anchor="model: #avater; href: url(./index.html)"
+      color="tomato"
+      width="2" height="3" depth=".5"
+      position="3 1.5 -8"
+    ></a-box>
     <a-entity 
+        id="avater"
+        vrm-model
+        vrm-controller
+        vrm-receive
+        position="0 0 -2">
+    </a-entity>
+    <!-- <a-entity 
       position="0 0 0" 
       rotation="0 0 0"
       animation="
@@ -31,7 +44,7 @@
         position="0 0 2" 
         rotation="0 -90 0">
       </a-entity>
-    </a-entity>
+    </a-entity> -->
   </a-scene>
 </body>
 </html>

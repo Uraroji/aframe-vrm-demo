@@ -187,9 +187,9 @@ registerComponent('vrm-controller', {
         try {
           let ev: any = e
           const self = ev.detail.component
-          self.model!.animations.push(await this.setClips('idle', './assets/idle.json'))
-          self.model!.animations.push(await this.setClips('walk', './assets/walk.json'))
-          self.model!.animations.push(await this.setClips('run', './assets/run.json'))
+          self.model!.animations.push(await this.setClips('idle', 'https://uraroji.github.io/aframe-vrm-demo/assets/idle.json'))
+          self.model!.animations.push(await this.setClips('walk', 'https://uraroji.github.io/aframe-vrm-demo/assets/walk.json'))
+          self.model!.animations.push(await this.setClips('run', 'https://uraroji.github.io/aframe-vrm-demo/assets/run.json'))
           self.mixer = new THREE.AnimationMixer(self.el.object3D)
           self.animation = self.mixer.clipAction(self.model!.animations[0])
           self.animation.clampWhenFinished = true

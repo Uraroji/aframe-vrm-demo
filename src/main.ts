@@ -2,10 +2,44 @@ import { registerComponent, THREE } from 'aframe'
 import { tracksToAnimationClip } from './animation'
 import { userVRMLoadAsync } from './userLoader'
 import TWEEN from '@tweenjs/tween.js'
+import { AssetsManager } from './transition'
 import 'aframe-environment-component'
 
+const assets = new AssetsManager()
 
-registerComponent('vrm-anchor', {
+window.onload = () => {
+  assets.send()
+}
+
+function absolutePath(path: string): string {
+  const e = document.createElement('span')
+  e.innerHTML = '<a href="' + path + '" />'
+  const url = (e.firstChild as HTMLAnchorElement)!.href
+  return url.split('?')[0]
+}
+
+registerComponent('vrm-portal-out', {
+  avatarEl: null as any,
+  schema: { 
+    type: 'selector'
+  },
+  init() {
+    assets.receive()
+      .then(file => {
+        if ( this.data.components['vrm-model'] ) {
+          let f: any = file
+          this.data
+            .components['vrm-model']
+            .vrmFileLoad(f.file)
+          console.log(location.href.split('?'));
+          const u = location.href.split('?')[0].split('/')
+          history.pushState({}, '', u[u.length-1])
+        }
+      })
+  }
+})
+
+registerComponent('vrm-portal-in', {
   avatarEl: null as any,
   schema: { 
     model: { type: 'selector' },
@@ -20,7 +54,10 @@ registerComponent('vrm-anchor', {
         const box1 = new THREE.Box3().setFromObject(this.el.object3D)
         const box2 = new THREE.Box3().setFromObject(this.avatarEl.object3D)
         if ( box1.intersectsBox(box2) ) {
-          console.log('遷移')
+          assets.transition(
+            absolutePath(this.data.href),
+            this.avatarEl.components['vrm-model'].vrmFile
+          )
         }
       }
     }

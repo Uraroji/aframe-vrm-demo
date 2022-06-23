@@ -11,40 +11,20 @@
   <a-scene inspector>
     <a-entity environment="preset: japan;"></a-entity>
     <a-box
-      vrm-anchor="model: #avater; href: url(./index.html)"
-      color="tomato"
-      width="2" height="3" depth=".5"
+      vrm-portal-in="model: #avater; href: url(./page.html)"
+      color="#ff0000"
+      width="3" height="3" depth=".01"
       position="3 1.5 -8"
-    ></a-box>
+      src="url(./assets/portal.png)"
+      material="transparent: true;"
+    >
+    </a-box>
     <a-entity 
         id="avater"
         vrm-model
         vrm-controller
-        vrm-receive
         position="0 0 -2">
     </a-entity>
-    <!-- <a-entity 
-      position="0 0 0" 
-      rotation="0 0 0"
-      animation="
-        property: rotation; 
-        to: 0 360 0;
-        loop: true;
-        easing: linear;
-        dur: 10000;">
-      <a-entity 
-        vrm-model
-        vrm-motion="url(./assets/walk.json)"
-        position="0 0 -2" 
-        rotation="0 90 0">
-      </a-entity>
-      <a-entity 
-        vrm-model="url(./assets/1903884660012638236.vrm)"
-        vrm-motion="url(./assets/walk.json)"
-        position="0 0 2" 
-        rotation="0 -90 0">
-      </a-entity>
-    </a-entity> -->
   </a-scene>
 </body>
 </html>

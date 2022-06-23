@@ -9,13 +9,8 @@
 </head>
 <body>
   <a-scene inspector>
-    <a-entity environment="preset: japan;"></a-entity>
-    <a-box
-      vrm-anchor="model: #avater; href: url(./index.html)"
-      color="tomato"
-      width="2" height="3" depth=".5"
-      position="3 1.5 -8"
-    ></a-box>
+    <a-entity vrm-portal-out="#avater" position="0 0 -10"></a-entity>
+    <a-entity environment="preset: starry;"></a-entity>
     <a-entity 
         id="avater"
         vrm-model

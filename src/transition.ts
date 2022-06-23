@@ -45,6 +45,7 @@ export class AssetsManager {
     }
     const search = new URLSearchParams(location.search)
     if (search.has('modelid') && search.has('tosite')) {
+      document.body.innerHTML = ''
       const modelid = parseInt(search.get('modelid')!)
       const tosite = new URL(search.get('tosite')!)
       const file = await this.getAsset(modelid)

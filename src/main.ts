@@ -1,8 +1,9 @@
 import { registerComponent, THREE } from 'aframe'
-import { tracksToAnimationClip } from './animation'
+import { tracksToAnimationClip, BoneKeys } from './animation'
 import { userVRMLoadAsync } from './userLoader'
 import TWEEN from '@tweenjs/tween.js'
 import { AssetsManager } from './transition'
+import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper'
 import 'aframe-environment-component'
 
 const assets = new AssetsManager()
@@ -35,6 +36,9 @@ registerComponent('vrm-portal-out', {
           const u = location.href.split('?')[0].split('/')
           history.pushState({}, '', u[u.length-1])
         }
+      })
+      .catch( r => {
+        console.log(r)
       })
   }
 })
@@ -338,5 +342,83 @@ registerComponent('vrm-controller', {
       pos.x -= Math.sin(this._angle) * timeDelta * this._speed
       pos.z -= Math.cos(this._angle) * timeDelta * this._speed
     }
+  }
+})
+
+registerComponent('area-light', {
+  schema: {
+    intensity:{
+      type: 'number',
+      default: 1.0
+    },
+    color: {
+      type: 'color',
+      default: '#FFFFFF'
+    },
+    width:{
+      type:'number',
+      default: 2
+    },
+    height:{
+      type: 'number',
+      default: 2
+    },
+    showHelper:{
+      type: 'boolean',
+      default: true
+    }
+  },
+
+  init: function(){
+    const rectLight = new THREE.RectAreaLight( this.data.color, this.data.intensity, this.data.width, this.data.height )
+    rectLight.position.set(this.data.width/2, 0, 0)
+    this.el.object3D.add(rectLight)
+    if(this.data.showHelper){
+      const rectLightHelper = new RectAreaLightHelper( rectLight )
+      rectLightHelper.position.set(this.data.width/2, 0, 0)
+      this.el.object3D.add(rectLightHelper)
+    }
+  },
+})
+
+
+registerComponent('suzuki', {
+  mixer: null as THREE.AnimationMixer | null,
+  dance: null as THREE.AnimationAction | null,
+  init() {
+    (async () => {
+      {
+        const fblob = await fetch('./assets/40095.vrm')
+              .then(res => {
+                return res.blob().then(blob => ({
+                  contentType: res.headers.get("Content-Type"),
+                  blob: blob
+                }))
+              })
+              .then(data => {
+                return new File(
+                  [data.blob], 
+                  this.data, 
+                  {type: data.contentType!}
+                )
+              })
+        const model = await userVRMLoadAsync(fblob)
+        this.el.setObject3D('mesh', model.scene)
+      }
+      {
+        const clipJson = await fetch('./assets/chikichikibanban.json').then(v=>v.json())
+        let bone = await fetch('./assets/suzuki.json').then(v=>v.json()) as BoneKeys
+        const track = tracksToAnimationClip(clipJson, 'chikichikibanban', bone) as any
+        this.mixer = new THREE.AnimationMixer(this.el.object3D)
+        this.dance = this.mixer.clipAction(track).setEffectiveWeight(1.0)
+        this.dance.clampWhenFinished = true
+        this.dance.play()
+      }
+    })()
+  },
+  tick(time, timeDelta) {
+    if (this.mixer) {
+      this.mixer.update(timeDelta)
+    } 
   }
 })

@@ -404,6 +404,7 @@ registerComponent('suzuki', {
               })
         const model = await userVRMLoadAsync(fblob)
         this.el.setObject3D('mesh', model.scene)
+        console.log(model.scene)
       }
       {
         const clipJson = await fetch('./assets/chikichikibanban.json').then(v=>v.json())
